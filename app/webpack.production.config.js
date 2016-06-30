@@ -3,12 +3,11 @@ var webpack = require('webpack');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 
 var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'segmentfault');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'src');
 
 module.exports = {
   entry: {
-    app: path.resolve(APP_PATH, 'index.jsx')
+    app: path.resolve(ROOT_PATH, 'index.jsx')
   },
   output: {
     path: BUILD_PATH,
@@ -19,7 +18,7 @@ module.exports = {
     loaders: [{
       test: /\.jsx?$/,
       loader: 'babel',
-      include: APP_PATH
+      include: ROOT_PATH
         // query: {
         //   //添加两个presents 使用这两种presets处理js或者jsx文件
         //   presets: ['es2015', 'react']

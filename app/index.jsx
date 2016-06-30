@@ -1,5 +1,5 @@
-require('../segmentfault/public/scss/index.scss');
-require('../segmentfault/public/css/normalize.css');
+require('./public/scss/index.scss');
+require('./public/css/normalize.css');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link, hashHistory, IndexRoute } from 'react-router';
