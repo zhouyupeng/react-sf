@@ -1,0 +1,288 @@
+@mixin center($width: null, $height: null) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    @if not $width and not $height {
+        transform: translate(-50%, -50%);
+    } @else if $width and $height {
+        width: $width;
+        height: $height;
+        margin: -($height / 2) #{0 0} -($width / 2);
+    } @else if not $height {
+        width: $width;
+        margin-left: -($width / 2);
+        transform: translateY(-50%);
+    } @else {
+        height: $height;
+        margin-top: -($height / 2);
+        transform: translateX(-50%);
+    }
+}
+// easy-animation.scss 
+
+
+// Support browser's private prefix.
+$ea-prefix-for-webkit:       true !default;
+$ea-prefix-for-mozilla:      true !default;
+$ea-prefix-for-microsoft:    true !default;
+$ea-prefix-for-opera:        true !default;
+$ea-prefix-for-spec:         true !default; // required for keyframe mixin
+
+
+// Disable all browser's private prefix.
+@mixin ea-disable-prefix-for-all() {
+  $ea-prefix-for-webkit:    false;
+  $ea-prefix-for-mozilla:   false;
+  $ea-prefix-for-microsoft: false;
+  $ea-prefix-for-opera:     false;
+  $ea-prefix-for-spec:      false;
+}
+
+
+// Example usage:
+// @include ea-transition(all 2s ease 0s);
+@mixin ea-transition($value, $prefixs: webkit moz ms o spec) {
+  @each $prefix in $prefixs {
+    @if $prefix == webkit {
+      @if $ea-prefix-for-webkit {
+        -webkit-transition: $value;
+      }
+    }
+    @else if $prefix == moz {
+      @if $ea-prefix-for-mozilla {
+        -moz-transition: $value;
+      }
+    }
+    @else if $prefix == ms {
+      @if $ea-prefix-for-microsoft {
+        -ms-transition: $value;
+      }
+    }
+    @else if $prefix == o {
+      @if $ea-prefix-for-opera {
+        -o-transition: $value;
+      }
+    }
+    @else if $prefix == spec {
+      @if $ea-prefix-for-spec {
+        transition: $value;
+      }
+    }
+    @else  {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+
+// Example usage:
+// @include ea-transform(scale(1));
+@mixin ea-transform($value, $prefixs: webkit moz ms o spec) {
+  @each $prefix in $prefixs {
+    @if $prefix == webkit {
+      @if $ea-prefix-for-webkit {
+        -webkit-transform: $value;
+      }
+    }
+    @else if $prefix == moz {
+      @if $ea-prefix-for-mozilla {
+        -moz-transform: $value;
+      }
+    }
+    @else if $prefix == ms {
+      @if $ea-prefix-for-microsoft {
+        -ms-transform: $value;
+      }
+    }
+    @else if $prefix == o {
+      @if $ea-prefix-for-opera {
+        -o-transform: $value;
+      }
+    }
+    @else if $prefix == spec {
+      @if $ea-prefix-for-spec {
+        transform: $value;
+      }
+    }
+    @else  {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+
+// Example usage:
+// @include ea-animation(wrap_s0_p1, 2s, ease, 0s, infinite);
+@mixin ea-animation($name, $duration, $function: ease, $delay: 0s, $count: infinite) {
+  -webkit-animation: $name $duration $function $delay $count;
+     -moz-animation: $name $duration $function $delay $count;
+      -ms-animation: $name $duration $function $delay $count;
+       -o-animation: $name $duration $function $delay $count;
+          animation: $name $duration $function $delay $count;
+}
+
+
+// Example usage:
+// @include ea-keyframes(wrap_s0_p1) {
+//   0% {
+//     opacity: 1;
+//     @include ea-transform(scale(1));
+//   }
+//   50% {
+//     opacity: 0.8;
+//     @include ea-transform(scale(0.8));
+//   }
+//   100% {
+//     opacity: 1;
+//     @include ea-transform(scale(1));
+//   }
+// }
+@mixin ea-keyframes($name) {
+  $_ea-prefix-for-webkit:       $ea-prefix-for-webkit;
+  $_ea-prefix-for-mozilla:      $ea-prefix-for-mozilla;
+  $_ea-prefix-for-microsoft:    $ea-prefix-for-microsoft;
+  $_ea-prefix-for-opera:        $ea-prefix-for-opera;
+  $_ea-prefix-for-spec:         $ea-prefix-for-spec;
+
+
+  @if $_ea-prefix-for-webkit {
+    @include ea-disable-prefix-for-all();
+    $ea-prefix-for-webkit: true;
+    @-webkit-keyframes #{$name} {
+      @content;
+    }
+  }
+  @if $_ea-prefix-for-mozilla {
+    @include ea-disable-prefix-for-all();
+    $ea-prefix-for-mozilla: true;
+    @-moz-keyframes #{$name} {
+      @content;
+    }
+  }
+  @if $_ea-prefix-for-microsoft {
+    @include ea-disable-prefix-for-all();
+    $ea-prefix-for-microsoft: true;
+    @-ms-keyframes #{$name} {
+      @content;
+    }
+  }
+  @if $_ea-prefix-for-opera {
+    @include ea-disable-prefix-for-all();
+    $ea-prefix-for-opera: true;
+    @-o-keyframes #{$name} {
+      @content;
+    }
+  }
+  @if $_ea-prefix-for-spec {
+    @include ea-disable-prefix-for-all();
+    $ea-prefix-for-spec: true;
+    @keyframes #{$name} {
+      @content;
+    }
+  }
+
+
+  $ea-prefix-for-webkit:    $_ea-prefix-for-webkit;
+  $ea-prefix-for-mozilla:   $_ea-prefix-for-mozilla;
+  $ea-prefix-for-microsoft: $_ea-prefix-for-microsoft;
+  $ea-prefix-for-opera:     $_ea-prefix-for-opera;
+  $ea-prefix-for-spec:      $_ea-prefix-for-spec;
+}
+
+
+
+@mixin transition($property, $value) {
+    @each $prefix in -webkit-, -moz-, -ms-, -o-, '' {
+        #{$prefix}#{$property}: $value;
+    }
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); 
+}
+
+@mixin ell() {//
+    overflow: hidden;
+-ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
+//.arrow{
+  // @include arrow(bottom,10px,#F00);
+//
+@mixin arrow($direction,$size,$color) {
+    width: 0;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+    border-width: $size;
+    cursor: pointer;
+    @if $direction == top {
+        border-style: dashed dashed solid dashed;
+        border-color: transparent transparent $color transparent;
+        border-top: none;
+    }
+    @else if $direction == bottom {
+        border-style: solid dashed dashed dashed;
+        border-color: $color transparent transparent transparent;
+        border-bottom: none;
+    }
+    @else if $direction == right {
+        border-style: dashed dashed dashed solid;
+        border-color: transparent transparent transparent $color;
+        border-right: none;
+    }
+    @else if $direction == left {
+        border-style: dashed solid dashed dashed;
+        border-color: transparent $color transparent transparent;
+        border-left: none;
+    }
+}
+
+
+
+// clearfix 
+@mixin clr {
+    &:after {
+        clear: both;
+        content: '.';
+        display: block;
+        height: 0;
+        line-height: 0;
+        overflow: hidden;
+    }
+    *height: 1%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
