@@ -1,5 +1,5 @@
-require('./public/scss/index.scss');
-require('./public/css/normalize.css');
+import './public/scss/index.scss';
+import './public/css/normalize.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link, hashHistory, IndexRoute } from 'react-router';
