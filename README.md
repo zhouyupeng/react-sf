@@ -12,7 +12,7 @@ $ node app
 开启app
 ``` sh
 $ cd react-sf
-$ cd add
+$ cd app
 $ npm install
 $ npm run dev
 ```
