@@ -1,26 +1,27 @@
 import React from 'react';
 import { Router, Route, Link,IndexLink , hashHistory, IndexRoute } from 'react-router';
-import leftBarConfig from "../config/leftBar.config.js";
+import leftBarConfig from "../../config/leftBar.config.js";
 
-var LeftBar = React.createClass({
-    getInitialState:function(){
-        return {
+export default class LeftBar extends React.Component{
+    constructor(){
+        super();
+        this.satet = {
             leftBarConfig : []
         }
-    },
-    componentWillMount:function(){
-         this.setState({
+    }
+    componentWillMount(){
+        this.setState({
             leftBarConfig : leftBarConfig
         });
-    },
-    render: function() {
-        var _list = this.state.leftBarConfig.map(function(item,index){
-                return ( <li key={index}>
-                            <Link to={`/tag/${item}`}>
-                                {item}
-                            </Link>
-                    </li>)
-            });
+    }
+    render(){
+        var _list = this.state.leftBarConfig.map((item,index)=>{
+            return ( <li key={item}>
+                        <Link to={`/tag/${item}`}>
+                            {item}
+                        </Link>
+                </li>)
+        });
         return (
             <aside className="leftBar">
             <ul>
@@ -30,7 +31,4 @@ var LeftBar = React.createClass({
         </aside>
         );
     }
-
-});
-
-module.exports = LeftBar;
+}

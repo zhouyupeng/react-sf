@@ -12,7 +12,7 @@ $ node app
 开启app
 ``` sh
 $ cd react-sf
-$ cd add
+$ cd app
 $ npm install
 $ npm run dev
 ```
@@ -22,5 +22,5 @@ $ npm run dev
 #打开 http://localhost:8080/
 
 #打包出来运行npm run build
-
-![预览](http://7xq7mw.com1.z0.glb.clouddn.com/GIF.gif)
+demo效果地址: [react-sf](http://7xq7mw.com1.z0.glb.clouddn.com/GIF.gif)
+!demo效果地址: [react-sf](http://7xq7mw.com1.z0.glb.clouddn.com/GIF.gif)

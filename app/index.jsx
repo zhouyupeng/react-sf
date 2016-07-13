@@ -8,9 +8,8 @@ import LeftBar from './components/leftbar/index.jsx';
 import List from './components/list/index.jsx';
 import Tag from './components/tag/index.jsx';
 import Question from './components/question/index.jsx';
-var Main = React.createClass({
-
-	render: function() {
+class Main extends React.Component{
+	render(){
 		return (
 			<div id="wrap">
 				<Header />
@@ -20,8 +19,7 @@ var Main = React.createClass({
 			</div>
 		);
 	}
-
-});
+}
 
 
 const app = document.createElement('div');

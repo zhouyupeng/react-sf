@@ -3,25 +3,25 @@ import ReactDOM from 'react-dom';
 import $ from "jquery";
 import { Router, Route, Link, hashHistory, IndexRoute } from 'react-router';
 
-var Tag = React.createClass({
-    getInitialState:function(){
-        return{
+export default class Tag extends React.Component{
+    constructor(){
+        super();
+        this.state = {
             page:1,
             quelist:[],
             loading:true,
             tag:"",
             loadingMore:false
         }
-    },
-    
-    componentDidMount:function(){
+        this.tagScrollUpdate = this._tagScrollUpdate.bind(this);
+    }
+    componentDidMount(){
         var page = this.state.page;
         var tag = this.props.params.id;
         this.updateState(page,tag);
         window.addEventListener('scroll',this.tagScrollUpdate);
-       
-    },
-     componentDidUpdate (prevProps) {
+    }
+    componentDidUpdate(prevProps){
         var tag = this.props.params.id;
         var oldTag = prevProps.params.id;
         var firstPage = 1;
@@ -35,8 +35,8 @@ var Tag = React.createClass({
             });
         this.updateState(firstPage,tag);
         }
-    },
-    updateState:function(page,tag){
+    }
+    updateState(page,tag){
         $.ajax({
             url: 'http://127.0.0.1:3000/tag',
             type: 'GET',
@@ -45,7 +45,8 @@ var Tag = React.createClass({
                 tag:tag
             },
             success: function(listData) {
-                if (this.isMounted() && listData) {
+                // this.isMounted() && 
+                if (listData) {
                     var $page = this.state.page + 1
                     this.setState({
                         quelist:listData,
@@ -58,8 +59,8 @@ var Tag = React.createClass({
                 
             }.bind(this)
         })
-    },
-    tagScrollUpdate:function(e){
+    }
+    _tagScrollUpdate(e) {
         var scrollTop =  $(window).scrollTop();   
     　　var scrollHeight = $(document).height();       　　
         var windowHeight =  $(window).height();  
@@ -78,7 +79,8 @@ var Tag = React.createClass({
                     tag:newTag
                 },
                 success: function(listData) {
-                    if (this.isMounted() && listData) {
+                    // this.isMounted() &&
+                    if (listData) {
                         var quelist = this.state.quelist.concat(listData);
                         var $page = this.state.page+1;
                         this.setState({
@@ -91,11 +93,11 @@ var Tag = React.createClass({
                 }.bind(this)
             })
         }
-    },
-    componentWillUnmount :function(){
+    }
+    componentWillUnmount(){
         window.removeEventListener('scroll', this.tagScrollUpdate);
-    },
-    render: function() {
+    }
+    render(){
         var _list = this.state.quelist.map(function(item,index){
         return(<li key={item.title.titleSrc}>
                     <div className="vote">
@@ -123,7 +125,5 @@ var Tag = React.createClass({
         </div>
         );
     }
-
-});
-
-module.exports = Tag;
+    
+}

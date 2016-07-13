@@ -1,14 +1,14 @@
 import React from 'react';
 import $ from 'jquery';
-
-var Header = React.createClass({
-    getInitialState:function(){
-        return{
+export default class Header extends React.Component{
+    constructor(){
+        super();
+        this.state = {
             title:"segmentfault"
         }
-    },
-    componentDidMount:function(){
-        $(".leftBarBtn").on("click", function() {
+    }
+    componentDidMount(){
+         $(".leftBarBtn").on("click", function() {
             $(".leftBar").fadeIn();
             $(".leftBar ul").addClass("leftBarActive");
             return false;
@@ -19,11 +19,10 @@ var Header = React.createClass({
             $(".leftBar ul").removeClass("leftBarActive");
             }
         })
-        
-    },
-	render: function() {
-		return (
-			<header className="header">
+    }
+    render(){
+        return (
+            <header className="header">
             <div className="leftBarBtn">
                 <span></span>
                 <span></span>
@@ -31,9 +30,6 @@ var Header = React.createClass({
             </div>
             <h2>{this.state.title}</h2>
         </header>
-		);
-	}
-
-});
-
-module.exports = Header;
+        );
+    }
+}

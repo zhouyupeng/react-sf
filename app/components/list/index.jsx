@@ -1,21 +1,23 @@
 import React from 'react';
 import { Router, Route, Link,IndexLink , hashHistory, IndexRoute } from 'react-router';
 import $ from "jquery";
-
-var List = React.createClass({
-    getInitialState:function(){
-        return{
+export default class List extends React.Component{
+    constructor(){
+        super();
+        this.state ={
             page:1,
             quelist:[],
             loading:true,
             loadingMore:false
         }
-    },
-    scrollUpdate:function(e){
+        this.scrollUpdate = this._scrollUpdate.bind(this);
+    }
+    _scrollUpdate(e){
         var scrollTop =  $(window).scrollTop();   
     　　var scrollHeight = $(document).height();       　　
         var windowHeight =  $(window).height();  
             if (scrollTop + windowHeight >= scrollHeight -100 && this.state.loadingMore) {
+
 
             this.setState({
                 loadingMore:false,
@@ -29,7 +31,8 @@ var List = React.createClass({
                     page: this.state.page,
                 },
                 success: function(listData) {
-                    if (this.isMounted() && listData) {
+                    // this.isMounted() && 
+                    if (listData) {
                         var quelists = this.state.quelist.concat(listData);
                         var $page = this.state.page + 1;
                         this.setState({
@@ -43,8 +46,8 @@ var List = React.createClass({
                 }.bind(this)
             })
         }
-  },
-    componentDidMount:function(){
+    }
+    componentDidMount(){
         $.ajax({
             url: 'http://127.0.0.1:3000',
             type: 'GET',
@@ -52,29 +55,27 @@ var List = React.createClass({
                 page: this.state.page
             },
             success: function(listData) {
-                if (this.isMounted()) {
+                // if (this.isMounted()) {
                     this.setState({
                         quelist:listData,
                         page:(this.state.page + 1),
                         loading:false,
                         loadingMore:true
                     })
-                }
+                // }
                 
             }.bind(this)
         })
        window.addEventListener('scroll',this.scrollUpdate);
-    },
-
-
-  componentWillUnmount :function(){
-    window.removeEventListener('scroll', this.scrollUpdate);
-  },
-   routerWillLeave(nextLocation) {
-    window.removeEventListener('scroll', this.scrollUpdate);
-   },
-    render: function() {
-        var _list = this.state.quelist.map(function(item,index){
+    }
+    componentWillUnmount(){
+        window.removeEventListener('scroll', this.scrollUpdate);
+    }
+    routerWillLeave(){
+        window.removeEventListener('scroll', this.scrollUpdate);
+    }
+    render(){
+         var _list = this.state.quelist.map(function(item,index){
         return(<li key={item.title.titleSrc + index}>
                     <div className="vote">
                         {item.votes}
@@ -101,7 +102,5 @@ var List = React.createClass({
         </div>
         );
     }
-
-});
-
-module.exports = List;
+    
+}
