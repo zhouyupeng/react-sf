@@ -23,4 +23,3 @@ $ npm run dev
 
 #打包出来运行npm run build
 demo效果地址: [react-sf](http://7xq7mw.com1.z0.glb.clouddn.com/GIF.gif)
-!demo效果地址: [react-sf](http://7xq7mw.com1.z0.glb.clouddn.com/GIF.gif)
